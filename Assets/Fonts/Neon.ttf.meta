@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 4dbbdaa3d539c57448fb23dbc3df7ddc
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Neon 80s
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4faad2890d267564ca575363e47cec11, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
