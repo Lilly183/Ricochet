@@ -8,11 +8,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Environment
+  - Enemies
   - 
   - 
   - 
@@ -44,8 +44,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Foreground
+  - name: Foreground - Environment
     uniqueID: 2066003117
+    locked: 0
+  - name: Foreground - Enemies
+    uniqueID: 3496418237
+    locked: 0
+  - name: Foreground - Player
+    uniqueID: 4200299611
     locked: 0
   - name: UI
     uniqueID: 4277107095
