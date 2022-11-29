@@ -48,6 +48,11 @@ public class ChangeLevel : MonoBehaviour
         SwitchLevel(targetLevel: "MainMenu");
     }
 
+    public static bool ActiveSceneIsLastLevel()
+    {
+        return SceneManager.GetActiveScene().buildIndex == endSceneIndex;
+    }
+
     //public static void SaveSettings()
     //{
     //    Player playerObject = FindObjectOfType<Player>();

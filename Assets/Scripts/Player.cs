@@ -23,10 +23,29 @@ public class Player : MonoBehaviour
     private Vector3 seekDirection = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
 
+    public int damage = 10;
+
+    //private int score;
+
+    //public int Score
+    //{
+    //    get { return score; }
+    //    set 
+    //    { 
+    //        score = value;
+    //        RefreshUI();
+    //    }
+    //}
+
     // Start is called before the first frame update
     private void Start()
     {
         //rb = GetComponent<Rigidbody2D>();
+
+        //timeText = GameObject.Find("timeText").GetComponent<Text>();
+        
+        //scoreText = GameObject.Find("scoreText").GetComponent<Text>();
+        //Score = PlayerPrefs.GetInt("Score", 0);
     }
 
     // Update is called once per frame
@@ -67,5 +86,4 @@ public class Player : MonoBehaviour
         moveDirection = new Vector3(inputX, inputY).normalized;
         transform.Translate(speedPerSecond * Time.deltaTime * moveDirection);
     }
-
 }

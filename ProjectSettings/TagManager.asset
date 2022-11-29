@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Base
   layers:
   - Default
   - TransparentFX
@@ -49,6 +50,9 @@ TagManager:
     locked: 0
   - name: Foreground - Enemies
     uniqueID: 3496418237
+    locked: 0
+  - name: Foreground - Explosions
+    uniqueID: 3240906369
     locked: 0
   - name: Foreground - Player
     uniqueID: 4200299611
