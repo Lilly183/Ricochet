@@ -57,11 +57,8 @@ public class EnemyManager : MonoBehaviour
 
 			Instantiate(spawnObject, spawnPoints[currSpawnIndex], Quaternion.identity);
 			++currentEnemies;
-			//Debug.Log("<color=orange>Enemy spawned!</color>");
 			yield return new WaitForSeconds(timeBetweenEnemies);
 		}
-
-		//Debug.Log("<color=green>Wave Spawned!</color>");
 
 		yield return new WaitForSeconds(timeBetweenWaves);
 

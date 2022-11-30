@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     // Makes Reference(s) to Other Object(s):
     //=======================================
 
-    //Text scoreText;
+    //public Text scoreText;
     public Text timeText;
 
     //====================

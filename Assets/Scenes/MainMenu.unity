@@ -1611,7 +1611,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Instructions for how to play the game will go here...
+  m_Text: "\u2022 Goal: Protect your base until the time limit expires!\n\n\u2022
+    Rotate the paddle using the mouse to deflect enemies.\n\n\u2022 Use WASD or \u2190\u2195\u2192
+    to move up, down, left, or right. \r\n\n\u2022 Press Esc at any time to return
+    to the main menu.\n"
 --- !u!222 &676786572
 CanvasRenderer:
   m_ObjectHideFlags: 0

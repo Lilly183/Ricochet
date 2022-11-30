@@ -20,13 +20,13 @@ public class TransitionScreen : MonoBehaviour
     public Color WinTextColor = new(0.02352941f, 1.0f, 0.003921569f, 1.0f);
 
     private string LoseTextColorHex;
-    //private string ClearTextColorHex;
+    private string ClearTextColorHex;
     private string WinTextColorHex;
 
     private void Awake()
     {
         LoseTextColorHex = ColorUtility.ToHtmlStringRGBA(LoseTextColor);
-        //ClearTextColorHex = ColorUtility.ToHtmlStringRGBA(ClearTextColor);
+        ClearTextColorHex = ColorUtility.ToHtmlStringRGBA(ClearTextColor);
         WinTextColorHex = ColorUtility.ToHtmlStringRGBA(WinTextColor);
     }
 
@@ -40,7 +40,6 @@ public class TransitionScreen : MonoBehaviour
     public void Transition(GameState condition)
     {
         gameObject.SetActive(true);
-        EnemyManager.currentEnemies = 0;
 
         switch (condition)
         {
@@ -49,7 +48,7 @@ public class TransitionScreen : MonoBehaviour
                 Invoke(nameof(LoadCurrent), transitionDelay);
                 break;
             case GameState.Clear:
-                transitionScreenText.text = $"Stage Cleared!";
+                transitionScreenText.text = $"<color=#{ClearTextColorHex}>Stage Cleared!</color>";
                 Invoke(nameof(LoadNext), transitionDelay);
                 break;
             case GameState.Win:
@@ -63,16 +62,24 @@ public class TransitionScreen : MonoBehaviour
 
     private void LoadCurrent()
     {
+        ResetEnemyCount();
         ChangeLevel.SwitchLevel(restartCurrentLevel: true);
     }
 
     private void LoadNext()
     {
+        ResetEnemyCount();
         ChangeLevel.AdvanceToNextLevel();
     }
 
     private void LoadMenu()
     {
+        ResetEnemyCount();
         ChangeLevel.GoToMainMenu();
+    }
+
+    private void ResetEnemyCount()
+    {
+        EnemyManager.currentEnemies = 0;
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+//[RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
     //Rigidbody2D rb = null;
@@ -42,9 +42,6 @@ public class Player : MonoBehaviour
     {
         //rb = GetComponent<Rigidbody2D>();
 
-        //timeText = GameObject.Find("timeText").GetComponent<Text>();
-        
-        //scoreText = GameObject.Find("scoreText").GetComponent<Text>();
         //Score = PlayerPrefs.GetInt("Score", 0);
     }
 

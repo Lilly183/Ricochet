@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Health))]
+[RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour
 {
     //=======================
@@ -13,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     Rigidbody2D rb = null;
     Health hp = null;
+    AudioSource collisionSFX;
 
     //===========
     // Prefab(s):
@@ -41,7 +43,9 @@ public class Enemy : MonoBehaviour
     public float baseSpeed = 5;
     public float hitBonusSpeed = 1;
     public float maxBonusSpeed = 5;
-    public int collisionDamage = 5;
+    
+    public int damageDealtToBase = 5;
+    public int damageTakenPerCollision = 5;
 
     private int hitCount = 0;
 
@@ -52,6 +56,8 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         hp = GetComponent<Health>();
+        collisionSFX = GetComponent<AudioSource>();
+
         healthBar = GetComponentInChildren<Slider>();
 
         if (playerObj == null)
@@ -67,6 +73,11 @@ public class Enemy : MonoBehaviour
     {
         lastVelocity = rb.velocity;
     }
+    
+    private void Launch()
+    {
+        Bounce(Random.insideUnitCircle.normalized);
+    }
 
     private void Bounce(Vector2 direction)
     {
@@ -75,60 +86,41 @@ public class Enemy : MonoBehaviour
         rb.velocity = direction * ballSpeed;
     }
 
-    private void Launch()
-    {
-        Bounce(Random.insideUnitCircle.normalized);
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         bool isKilled;
 
         switch(collision.gameObject.tag)
         {
+            // TO DO: Add Pickups...
+            case "Pickups":
+            {
+                return;
+            }
             case "Player":
             {
                 isKilled = hp.ChangeHealth(-playerObj.damage);
                 break;
             }
-            case "Base":
-            {
-                isKilled = hp.ChangeHealth(-hp.currentHealth);
-                // Damage the base!
-                break;
-            }
-            // TO DO: Add Pickups...
             default:
             {
-                isKilled = hp.ChangeHealth(-collisionDamage);
+                isKilled = hp.ChangeHealth(-damageTakenPerCollision);
                 break;
             }
         }
 
         healthBar.value = hp.CalcHealthPercentage();
 
+        //collisionSFX.pitch = Random.Range(0.8f, 0.9f);
+        //collisionSFX.volume = Random.Range(0.8f, 1.2f);
+
+        collisionSFX.Play();
+
         if (isKilled)
         {
-            // Increase the player's score (Make static reference to player).
-
-            --EnemyManager.currentEnemies;
-
-            // Maybe drop a pickup for the player to collect:
-
-            if (Random.Range(0.0f, 1.0f) < pickupDropRate)
-            {
-
-                Debug.Log("<color=blue>DROP!</color>");
-                //Instantiate(pickupPrefab, transform.position, Quaternion.identity);
-            }
-
-            GameObject explosion = Instantiate(prefabOnDeath, transform.position, Quaternion.Euler(0, 0, Random.Range(0.0f, 360.0f)));
-            explosion.transform.localScale *= Random.Range(1.0f, 1.35f);
+            ExecuteDeathRoutine();
+            return;
         }
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-        // CHANGE: Increase hitCount only when collision is with another enemy or player bumper
-        ///////////////////////////////////////////////////////////////////////////////////////
 
         if ((hitCount * hitBonusSpeed) < maxBonusSpeed)
         {
@@ -136,5 +128,44 @@ public class Enemy : MonoBehaviour
         }
 
         Bounce(Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Base":
+            {
+                // Kill the enemy.
+                hp.ChangeHealth(-hp.currentHealth);
+                ExecuteDeathRoutine();  
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
+
+    private void ExecuteDeathRoutine()
+    {
+        // Decrease the number of current enemies:
+
+        --EnemyManager.currentEnemies;
+
+        //==================================================
+        // TO DO: Drop a pickup for the player to collect...
+        //==================================================
+
+        if (Random.Range(0.0f, 1.0f) < pickupDropRate)
+        {
+            Debug.Log("<color=blue>DROP!</color>");
+            //Instantiate(pickupPrefab, transform.position, Quaternion.identity);
+        }
+
+        // Spawn explosion:
+        GameObject explosion = Instantiate(prefabOnDeath, transform.position, Quaternion.Euler(0, 0, Random.Range(0.0f, 360.0f)));
+        explosion.transform.localScale *= Random.Range(1.0f, 1.35f);
     }
 }
