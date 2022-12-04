@@ -62,24 +62,16 @@ public class TransitionScreen : MonoBehaviour
 
     private void LoadCurrent()
     {
-        ResetEnemyCount();
         ChangeLevel.SwitchLevel(restartCurrentLevel: true);
     }
 
     private void LoadNext()
     {
-        ResetEnemyCount();
         ChangeLevel.AdvanceToNextLevel();
     }
 
     private void LoadMenu()
     {
-        ResetEnemyCount();
         ChangeLevel.GoToMainMenu();
-    }
-
-    private void ResetEnemyCount()
-    {
-        EnemyManager.currentEnemies = 0;
     }
 }

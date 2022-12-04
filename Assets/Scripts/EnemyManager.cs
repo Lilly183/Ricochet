@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-	public List<Vector2> spawnPoints = new List<Vector2>();
-	public List<GameObject> enemyPrefabs = new List<GameObject>();
+	public List<Vector2> spawnPoints = new();
+	public List<GameObject> enemyPrefabs = new();
 
 	[HideInInspector]
 	static public int currentEnemies = 0;
@@ -27,15 +27,19 @@ public class EnemyManager : MonoBehaviour
 	{
 		while (currentEnemies < spawnLimit)
 		{
+			// Update the number of current enemies:
+			++currentEnemies;
+
 			// Choose a random enemy to spawn from the list of enemy prefabs:
-
 			GameObject spawnObject = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
-
-			// Choose a random spawn point from the list of spawn points:
 
 			do
 			{
-                /*
+				/*
+				==========================================================
+				Choose a Random Spawn Point from the List of Spawn Points:
+				==========================================================
+
 				Assign to currSpawnIndex a random index that's within the bounds of spawnPoints. 
 				Do this for as long as currSpawnIndex has the same value as prevSpawnIndex. 
 
@@ -49,19 +53,17 @@ public class EnemyManager : MonoBehaviour
 				infinite loops.
 				*/
 
-                currSpawnIndex = Random.Range(0, spawnPoints.Count);
+				currSpawnIndex = Random.Range(0, spawnPoints.Count);
 
 			} while ((currSpawnIndex == prevSpawnIndex) && spawnPoints.Count > 1);
 
 			prevSpawnIndex = currSpawnIndex;
-
 			Instantiate(spawnObject, spawnPoints[currSpawnIndex], Quaternion.identity);
-			++currentEnemies;
+
 			yield return new WaitForSeconds(timeBetweenEnemies);
 		}
 
 		yield return new WaitForSeconds(timeBetweenWaves);
-
 		StartCoroutine(SpawnEnemies());
 	}
 

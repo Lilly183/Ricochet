@@ -11,20 +11,21 @@ public class UIManager : MonoBehaviour
 
     public static UIManager uiInstance;
 
+    //private static Player playerObj;
+
     //=======================================
     // Makes Reference(s) to Other Object(s):
     //=======================================
 
-    //public Text scoreText;
+    public Text scoreText;
     public Text timeText;
 
     //====================
     // Member Variable(s):
     //====================
 
-    public Color timeTextColor = new(1.0f, 1.0f, 0.0f, 1.0f);
-    private string timeTextColorHex;
-
+    //public Color timeTextColor = new(1.0f, 1.0f, 0.0f, 1.0f);
+    //private string timeTextColorHex;
     //public Color timeTextColorA = new(0, 1, 0);
     //public Color timeTextColorB = new(1, 0, 0);
 
@@ -40,7 +41,12 @@ public class UIManager : MonoBehaviour
             uiInstance = this;
         }
 
-        timeTextColorHex = ColorUtility.ToHtmlStringRGBA(timeTextColor);
+        //if (playerObj == null)
+        //{
+        //    playerObj = FindObjectOfType<Player>();
+        //}
+
+        //timeTextColorHex = ColorUtility.ToHtmlStringRGBA(timeTextColor);
 
         RefreshUI();
     }
@@ -48,8 +54,23 @@ public class UIManager : MonoBehaviour
     public void RefreshUI()
     {
         //string timeTextColorHex = ColorUtility.ToHtmlStringRGB(Color.Lerp(timeTextColorA, timeTextColorB, (1 - (Timer.timeRemaining / (float)Timer.staticTimeLimit))));
+        RefreshTimeUI();
+        RefreshScoreUI();
+    }
 
-        timeText.text = $"Time: <color=#{timeTextColorHex}>" + Timer.timeRemaining + "</color>";
-        //scoreText.text = "Score: " + score;
+    public void RefreshScoreUI()
+    {
+        if (Player.playerObj != null)
+        {
+            scoreText.text = Player.playerObj.Score.ToString();
+        }
+        //scoreText.text = "Score: " + playerObj.Score;
+    }
+
+    public void RefreshTimeUI()
+    {
+        //timeText.text = $"Time: <color=#{timeTextColorHex}>" + Timer.timeRemaining + "</color>";
+        //timeText.text = $"<color=#{timeTextColorHex}>" + Timer.timeRemaining + "</color>";
+        timeText.text = Timer.timeRemaining.ToString();
     }
 }

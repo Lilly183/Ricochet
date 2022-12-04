@@ -7,6 +7,24 @@ public class Player : MonoBehaviour
 {
     //Rigidbody2D rb = null;
 
+    /*
+    ==================
+    Singleton Pattern:
+    ==================
+
+    playerObj is declared static to make it accessible to other scripts:
+
+        - UIManager: 
+            Access to the player's score is needed for the RefreshScoreUI() method.
+        - Enemy: 
+            Access to the player's damage is needed to change the health of an enemy that has collided 
+            with the player's paddle.
+        - ChangeLevel
+            Access to the player's score is needed to set the PlayerPrefs in the SaveSettings() method.
+    */
+    
+    public static Player playerObj = null;
+
     //====================
     // Member Variable(s):
     //====================
@@ -25,24 +43,29 @@ public class Player : MonoBehaviour
 
     public int damage = 10;
 
-    //private int score;
+    private int score;
+    public int Score
+    {
+        get { return score; }
 
-    //public int Score
-    //{
-    //    get { return score; }
-    //    set 
-    //    { 
-    //        score = value;
-    //        RefreshUI();
-    //    }
-    //}
+        set
+        {
+            score = value;
+            UIManager.uiInstance.RefreshScoreUI();
+        }
+    }
 
     // Start is called before the first frame update
     private void Start()
     {
         //rb = GetComponent<Rigidbody2D>();
 
-        //Score = PlayerPrefs.GetInt("Score", 0);
+        if (playerObj == null)
+        {
+            playerObj = this;
+        }
+
+        Score = PlayerPrefs.GetInt("Score", 0);
     }
 
     // Update is called once per frame
@@ -83,4 +106,8 @@ public class Player : MonoBehaviour
         moveDirection = new Vector3(inputX, inputY).normalized;
         transform.Translate(speedPerSecond * Time.deltaTime * moveDirection);
     }
+
+    // If the player collides with an object tagged with pickup...
+    // Increase the player's score.
+    // Maybe have a pickup object function?
 }

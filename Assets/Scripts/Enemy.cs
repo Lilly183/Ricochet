@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Health))]
-[RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour
 {
     //=======================
@@ -14,30 +13,30 @@ public class Enemy : MonoBehaviour
 
     Rigidbody2D rb = null;
     Health hp = null;
-    AudioSource collisionSFX;
+    
+    [HideInInspector]
+    public AudioSource audioSource;
+
+    public AudioClip collisionSFX;
+    public AudioClip deathSFX;
+
+    [HideInInspector]
+    public TrailRenderer tr;
 
     //===========
     // Prefab(s):
     //===========
 
     public GameObject prefabOnDeath;
+    public GameObject pickupPrefab;
 
     //============
     // References:
     //============
 
-    private static Player playerObj = null;
-
     //====================
     // Member Variable(s):
     //====================
-
-    Slider healthBar;
-
-    public GameObject pickupPrefab;
-
-    [Range(0.0f, 1.0f)]
-    public float pickupDropRate;
 
     public float launchDelay = 1.0f;
     public float baseSpeed = 5;
@@ -45,25 +44,24 @@ public class Enemy : MonoBehaviour
     public float maxBonusSpeed = 5;
     
     public int damageDealtToBase = 5;
-    public int damageTakenPerCollision = 5;
+    public int damageTakenPerBounce = 5;
+
+    [Range(0.0f, 1.0f)]
+    public float pickupDropRate;
 
     private int hitCount = 0;
-
     private Vector3 lastVelocity = Vector3.zero;
-
+    private Slider healthBar;
+    
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         hp = GetComponent<Health>();
-        collisionSFX = GetComponent<AudioSource>();
 
+        audioSource = GetComponentInChildren<AudioSource>();
         healthBar = GetComponentInChildren<Slider>();
-
-        if (playerObj == null)
-        {
-            playerObj = FindObjectOfType<Player>();
-        }
+        tr = GetComponentInChildren<TrailRenderer>();
 
         Invoke(nameof(Launch), launchDelay);
     }
@@ -88,23 +86,61 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        bool isKilled;
-
         switch(collision.gameObject.tag)
         {
             // TO DO: Add Pickups...
-            case "Pickups":
+            case "Pickups" or "Base":
             {
                 return;
             }
             case "Player":
             {
-                isKilled = hp.ChangeHealth(-playerObj.damage);
+                /*
+                =========================
+                Enemy Collides w/ Player: 
+                =========================
+
+                If the enemy collides with the player and is killed as a result of the player's damage,
+                ChangeHealth() will return true; it will also handle everything that should happen whenever
+                an enemy dies (check the Health class's Die() method for more information). If the enemy has
+                been killed, nothing further needs to be done. We can return. Otherwise, break will allow
+                execution to proceed. The slider acting as the enemy's healthbar will be updated, collisionSFX
+                will be played, hitCount will be updated if applicable, and the enemy's velocity will be
+                changed via the Bounce() method.
+                */
+
+                if (hp.ChangeHealth(-Player.playerObj.damage))
+                {
+                    return;
+                }
+
+                ////////////////////////////////////////////////////////////
+                // TO DO: Add different thud SFX for enemy-player-collision!
+                ////////////////////////////////////////////////////////////
+
                 break;
             }
             default:
             {
-                isKilled = hp.ChangeHealth(-damageTakenPerCollision);
+                /*
+                ========================
+                Enemy Collides w/ Other:
+                ========================
+
+                If an enemy has collided with an object that isn't tagged as a pickup, a base, or the 
+                player (which typically means it's the environment), instead of losing an amount of 
+                health that's dictated by the other object's damage (e.g., the player), change the 
+                enemy's health by the value of damageTakenPerBounce. Everything else is the same as 
+                above.
+                */
+
+                if (hp.ChangeHealth(-damageTakenPerBounce))
+                {
+                    return;
+                }
+
+                audioSource.PlayOneShot(collisionSFX, 0.5f);
+
                 break;
             }
         }
@@ -113,14 +149,6 @@ public class Enemy : MonoBehaviour
 
         //collisionSFX.pitch = Random.Range(0.8f, 0.9f);
         //collisionSFX.volume = Random.Range(0.8f, 1.2f);
-
-        collisionSFX.Play();
-
-        if (isKilled)
-        {
-            ExecuteDeathRoutine();
-            return;
-        }
 
         if ((hitCount * hitBonusSpeed) < maxBonusSpeed)
         {
@@ -138,7 +166,6 @@ public class Enemy : MonoBehaviour
             {
                 // Kill the enemy.
                 hp.ChangeHealth(-hp.currentHealth);
-                ExecuteDeathRoutine();  
                 break;
             }
             default:
@@ -146,26 +173,5 @@ public class Enemy : MonoBehaviour
                 break;
             }
         }
-    }
-
-    private void ExecuteDeathRoutine()
-    {
-        // Decrease the number of current enemies:
-
-        --EnemyManager.currentEnemies;
-
-        //==================================================
-        // TO DO: Drop a pickup for the player to collect...
-        //==================================================
-
-        if (Random.Range(0.0f, 1.0f) < pickupDropRate)
-        {
-            Debug.Log("<color=blue>DROP!</color>");
-            //Instantiate(pickupPrefab, transform.position, Quaternion.identity);
-        }
-
-        // Spawn explosion:
-        GameObject explosion = Instantiate(prefabOnDeath, transform.position, Quaternion.Euler(0, 0, Random.Range(0.0f, 360.0f)));
-        explosion.transform.localScale *= Random.Range(1.0f, 1.35f);
     }
 }

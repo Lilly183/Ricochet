@@ -15,36 +15,44 @@ public class Base : MonoBehaviour
         hp = GetComponent<Health>();
         healthText = GetComponentInChildren<Text>();
 
-        RefreshUI();
+        RefreshBaseUI();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemies"))
+        switch (collision.gameObject.tag)
         {
-            // Get the enemy's component.
-            Enemy en = collision.gameObject.GetComponent<Enemy>();
-
-            if (en != null)
+            case "Enemies":
             {
-                // Change the health of the base by the enemy's damage.
-                bool isDestroyed = hp.ChangeHealth(-en.damageDealtToBase);
+                // Get the enemy's component.
+                Enemy en = collision.gameObject.GetComponent<Enemy>();
 
-                // Refresh the UI.
-                RefreshUI();
-
-                // Check if base was destroyed.
-                if (isDestroyed)
+                if (en != null)
                 {
-                    // If yes, the player has lost.
-                    TransitionManager.transitionManagerInstance.transitionScreen.Transition(TransitionScreen.GameState.Lose);
+                    // Change the health of the base by the enemy's damage.
+                    bool isDestroyed = hp.ChangeHealth(-en.damageDealtToBase);
+
+                    // Refresh the UI.
+                    RefreshBaseUI();
+
+                    // Check if base was destroyed.
+                    if (isDestroyed)
+                    {
+                        // If yes, the player has lost.
+                        TransitionManager.transitionManagerInstance.transitionScreen.Transition(TransitionScreen.GameState.Lose);
+                    }
                 }
 
+                break;
+            }
+            default:
+            {
+                break;
             }
         }
     }
 
-    void RefreshUI()
+    void RefreshBaseUI()
     {
         healthText.text = hp.CalcHealthPercentage() * 100 + "%";
     }

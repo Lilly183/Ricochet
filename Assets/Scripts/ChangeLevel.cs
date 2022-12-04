@@ -16,6 +16,10 @@ public class ChangeLevel : MonoBehaviour
         {
             SceneManager.LoadScene(targetLevel);
         }
+
+        // Reset the enemy count:
+
+        EnemyManager.currentEnemies = 0;
     }
 
     readonly static int endSceneIndex = SceneManager.sceneCountInBuildSettings - 1;
@@ -32,8 +36,8 @@ public class ChangeLevel : MonoBehaviour
             // need to be set so that the player can continue from this point when
             // clicking "Continue" from the main menu.
 
-            //PlayerPrefs.SetString("CurrentProgress", nextLevel);
-            //PlayerPrefs.Save();
+            PlayerPrefs.SetString("CurrentProgress", nextLevel);
+            PlayerPrefs.Save();
             SwitchLevel(targetLevel: nextLevel);
         }
 
@@ -53,14 +57,12 @@ public class ChangeLevel : MonoBehaviour
         return SceneManager.GetActiveScene().buildIndex == endSceneIndex;
     }
 
-    //public static void SaveSettings()
-    //{
-    //    Player playerObject = FindObjectOfType<Player>();
-
-    //    if (playerObject != null)
-    //    {
-    //        PlayerPrefs.SetInt("Score", playerObject.Score);
-    //        PlayerPrefs.Save();
-    //    }
-    //}
+    public static void SaveScore()
+    {
+        if (Player.playerObj != null)
+        {
+            PlayerPrefs.SetInt("Score", Player.playerObj.Score);
+            PlayerPrefs.Save();
+        }
+    }
 }

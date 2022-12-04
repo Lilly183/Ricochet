@@ -8,13 +8,11 @@ public class Timer : MonoBehaviour
     public int timeLimit = 60;
 
     // Declared static to make accessible to other scripts (i.e., UIManager)
-    //static public int staticTimeLimit;
     static public int timeRemaining;
 
     // Start is called before the first frame update
     void Start()
     {
-        //staticTimeLimit = timeLimit;
         StartCoroutine(Countdown());
     }
 
@@ -54,7 +52,9 @@ public class Timer : MonoBehaviour
 
             // Update the Timer in the UI:
 
-            UIManager.uiInstance.RefreshUI();
+            UIManager.uiInstance.RefreshTimeUI();
+
+            //Debug.Log("<color=yellow>Current Enemies: " + EnemyManager.currentEnemies + "</color>");
         }
     }
 }

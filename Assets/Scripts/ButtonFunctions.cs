@@ -6,20 +6,20 @@ public class ButtonFunctions : MonoBehaviour
 {
     public void ContinueGame()
     {
-        //if (PlayerPrefs.HasKey("CurrentProgress"))
-        //{
-        //    ChangeLevel.SwitchLevel(targetLevel: PlayerPrefs.GetString("CurrentProgress"));
-        //}
+        if (PlayerPrefs.HasKey("CurrentProgress"))
+        {
+            ChangeLevel.SwitchLevel(targetLevel: PlayerPrefs.GetString("CurrentProgress"));
+        }
 
-        //else
-        //{
-        //    ChangeLevel.AdvanceToNextLevel();
-        //}
+        else
+        {
+            ChangeLevel.AdvanceToNextLevel();
+        }
     }
 
     public void NewGame()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         ChangeLevel.AdvanceToNextLevel();
     }
 
@@ -34,7 +34,7 @@ public class ButtonFunctions : MonoBehaviour
 
         else
         {
-            Debug.Log("<color=red>No Match...</color>");
+            Debug.Log("<color=red>Instructions popup was not found...</color>");
         }
     }
 
@@ -49,7 +49,7 @@ public class ButtonFunctions : MonoBehaviour
 
         else
         {
-            Debug.Log("<color=red>No Match...</color>");
+            Debug.Log("<color=red>Credits popup was not found...</color>");
         }
     }
 
