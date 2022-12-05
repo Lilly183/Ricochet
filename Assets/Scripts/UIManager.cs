@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     // Singleton Pattern:
     //===================
 
-    public static UIManager uiInstance;
+    public static UIManager uiInstance = null;
 
     //private static Player playerObj;
 
@@ -33,13 +33,21 @@ public class UIManager : MonoBehaviour
     // script for timeText to lerp between timeTextColorA and timeTextColorB. It cannot be zero.
     // Its value must be clamped to at least 1.
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         if (uiInstance == null)
         {
             uiInstance = this;
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //if (uiInstance == null)
+        //{
+        //    uiInstance = this;
+        //}
 
         //if (playerObj == null)
         //{

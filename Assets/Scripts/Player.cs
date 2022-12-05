@@ -42,6 +42,15 @@ public class Player : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
 
     public int damage = 10;
+    public int boostDamage = 999;
+    public float boostDamageDuration = 8.0f;
+    public Color boostDamageColorEffect = new(0.1960784f, 1.0f, 0.01568628f, 0.5f);
+
+    private bool hasEnergy = false;
+
+    [HideInInspector]
+    static public List<SpriteRenderer> playerBackgroundSpriteRenderers = new();
+    readonly List<Color> normalBackgroundColors = new();
 
     private int score;
     public int Score
@@ -51,6 +60,7 @@ public class Player : MonoBehaviour
         set
         {
             score = value;
+
             UIManager.uiInstance.RefreshScoreUI();
         }
     }
@@ -66,6 +76,16 @@ public class Player : MonoBehaviour
         }
 
         Score = PlayerPrefs.GetInt("Score", 0);
+
+        GetNormalBackgroundColors();
+    }
+
+    private void GetNormalBackgroundColors()
+    {
+        foreach (var sr in playerBackgroundSpriteRenderers)
+        {
+            normalBackgroundColors.Add(sr.color);
+        }
     }
 
     // Update is called once per frame
@@ -89,9 +109,9 @@ public class Player : MonoBehaviour
         seekDirection = mouseWorldPosition - transform.position;
         seekDirection.Normalize();
 
-        if (transform.childCount > 0)
+        if (transform.childCount > 1)
         {
-            Transform child = transform.GetChild(0);
+            Transform child = transform.GetChild(1);
 
             child.position = transform.position + (seekDirection * orbitalRadius);
 
@@ -107,7 +127,80 @@ public class Player : MonoBehaviour
         transform.Translate(speedPerSecond * Time.deltaTime * moveDirection);
     }
 
-    // If the player collides with an object tagged with pickup...
-    // Increase the player's score.
-    // Maybe have a pickup object function?
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case "Coins" or "Energy":
+            {
+                Pickup pickupObj = collision.gameObject.GetComponent<Pickup>();
+
+                if (pickupObj)
+                {
+                    if (collision.gameObject.CompareTag("Coins") || hasEnergy == false)
+                    {
+                        pickupObj.Equip();
+
+                        if (collision.gameObject.CompareTag("Energy"))
+                        {
+                            StartCoroutine(BoostDamage());
+                        }
+
+                        else
+                        {
+                            Score += 100;
+                        }
+
+                        Destroy(collision.gameObject);
+                    }
+                }
+
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    IEnumerator BoostDamage()
+    {
+        hasEnergy = true;
+
+        // Store the player's original damage so that we can revert it back later:
+        int normalDamage = damage;
+
+        // playerBackgroundSpriteRenderers is a List for storing the sprite renderer
+        // components for all of the gameObjects comprising the player's background.
+        //Queue<Color> normalColors = new();
+
+        foreach (var sr in playerBackgroundSpriteRenderers)
+        {
+            //normalColors.Enqueue(sr.color);
+            sr.color = boostDamageColorEffect;
+        }
+
+        // Set the player's damage to boostDamage:
+        damage = boostDamage;
+
+        // Let the player's damage remain at boostDamage for the length of boostDamageDuration:
+        yield return new WaitForSeconds(boostDamageDuration);
+
+        // Return the player's damage back to normal levels (whatever it was before):
+        damage = normalDamage;
+
+        //foreach (var sr in playerBackgroundSpriteRenderers)
+        //{
+        //    sr.color = normalColors.Dequeue();
+        //}
+
+        for (int i = 0; i < playerBackgroundSpriteRenderers.Count; i++)
+        {
+            playerBackgroundSpriteRenderers[i].color = normalBackgroundColors[i];
+        }
+
+        hasEnergy = false;
+    }
 }
+
+
+

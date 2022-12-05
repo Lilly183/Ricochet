@@ -47,14 +47,10 @@ public class Health : MonoBehaviour
 
         if (enemyObj)
         {
-            //==================================================
-            // TO DO: Drop a pickup for the player to collect...
-            //==================================================
-
+            // Drop a pickup for the player to collect:
             if (Random.Range(0.0f, 1.0f) < enemyObj.pickupDropRate)
             {
-                //Debug.Log("<color=blue>DROP!</color>");
-                //Instantiate(pickupPrefab, transform.position, Quaternion.identity);
+                Instantiate(enemyObj.pickupPrefabs[Random.Range(0, enemyObj.pickupPrefabs.Count)], transform.position, Quaternion.identity);
             }
 
             // Spawn explosion:
@@ -66,7 +62,7 @@ public class Health : MonoBehaviour
             enemyObj.audioSource.PlayOneShot(enemyObj.deathSFX);
             enemyObj.audioSource.GetComponent<LifeTime>().StartTimer();
 
-            // Detach the TrailRenderer component and set it to autodestruct:
+            // Detach the TrailRenderer component. Set it to autodestruct:
             enemyObj.tr.transform.parent = null;
             enemyObj.tr.autodestruct = true;
 

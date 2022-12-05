@@ -17,7 +17,8 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public AudioSource audioSource;
 
-    public AudioClip collisionSFX;
+    public AudioClip collisionSFX1;
+    public AudioClip collisionSFX2;
     public AudioClip deathSFX;
 
     [HideInInspector]
@@ -28,12 +29,7 @@ public class Enemy : MonoBehaviour
     //===========
 
     public GameObject prefabOnDeath;
-    public GameObject pickupPrefab;
-
-    //============
-    // References:
-    //============
-
+    
     //====================
     // Member Variable(s):
     //====================
@@ -46,9 +42,14 @@ public class Enemy : MonoBehaviour
     public int damageDealtToBase = 5;
     public int damageTakenPerBounce = 5;
 
+    //=========
+    // Pickups:
+    //=========
+
     [Range(0.0f, 1.0f)]
     public float pickupDropRate;
-
+    public List<GameObject> pickupPrefabs = new();
+   
     private int hitCount = 0;
     private Vector3 lastVelocity = Vector3.zero;
     private Slider healthBar;
@@ -88,11 +89,10 @@ public class Enemy : MonoBehaviour
     {
         switch(collision.gameObject.tag)
         {
-            // TO DO: Add Pickups...
-            case "Pickups" or "Base":
-            {
-                return;
-            }
+            //case "Pickups" or "Base":
+            //{
+            //    return;
+            //}
             case "Player":
             {
                 /*
@@ -103,9 +103,9 @@ public class Enemy : MonoBehaviour
                 If the enemy collides with the player and is killed as a result of the player's damage,
                 ChangeHealth() will return true; it will also handle everything that should happen whenever
                 an enemy dies (check the Health class's Die() method for more information). If the enemy has
-                been killed, nothing further needs to be done. We can return. Otherwise, break will allow
-                execution to proceed. The slider acting as the enemy's healthbar will be updated, collisionSFX
-                will be played, hitCount will be updated if applicable, and the enemy's velocity will be
+                been killed, nothing further needs to be done. We can return. Otherwise, a sound effect will 
+                play, and break will allow execution to proceed. The slider acting as the enemy's healthbar 
+                will be updated, hitCount will be updated if applicable, and the enemy's velocity will be 
                 changed via the Bounce() method.
                 */
 
@@ -114,9 +114,7 @@ public class Enemy : MonoBehaviour
                     return;
                 }
 
-                ////////////////////////////////////////////////////////////
-                // TO DO: Add different thud SFX for enemy-player-collision!
-                ////////////////////////////////////////////////////////////
+                audioSource.PlayOneShot(collisionSFX2, 0.75f);
 
                 break;
             }
@@ -139,16 +137,13 @@ public class Enemy : MonoBehaviour
                     return;
                 }
 
-                audioSource.PlayOneShot(collisionSFX, 0.5f);
+                audioSource.PlayOneShot(collisionSFX1, 0.5f);
 
                 break;
             }
         }
 
         healthBar.value = hp.CalcHealthPercentage();
-
-        //collisionSFX.pitch = Random.Range(0.8f, 0.9f);
-        //collisionSFX.volume = Random.Range(0.8f, 1.2f);
 
         if ((hitCount * hitBonusSpeed) < maxBonusSpeed)
         {

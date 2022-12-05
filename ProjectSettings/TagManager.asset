@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Base
   - Enemies
+  - Coins
+  - Energy
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - UI
   - Environment
   - Enemies
-  - 
-  - 
+  - Pickups
+  - Teleporters
   - 
   - 
   - 
@@ -48,6 +50,12 @@ TagManager:
     locked: 0
   - name: Foreground - Environment
     uniqueID: 2066003117
+    locked: 0
+  - name: Foreground - Pickups
+    uniqueID: 237699437
+    locked: 0
+  - name: Foreground - Teleporters
+    uniqueID: 1931175341
     locked: 0
   - name: Foreground - Enemies
     uniqueID: 3496418237

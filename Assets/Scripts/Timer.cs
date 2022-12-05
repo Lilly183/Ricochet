@@ -10,15 +10,15 @@ public class Timer : MonoBehaviour
     // Declared static to make accessible to other scripts (i.e., UIManager)
     static public int timeRemaining;
 
+    private void Awake()
+    {
+        timeRemaining = timeLimit;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(Countdown());
-    }
-
-    private void Awake()
-    {
-        timeRemaining = timeLimit;
     }
 
     void OnValidate()
@@ -46,6 +46,7 @@ public class Timer : MonoBehaviour
 
                 else
                 {
+                    ChangeLevel.SaveScore();
                     TransitionManager.transitionManagerInstance.transitionScreen.Transition(TransitionScreen.GameState.Clear);
                 }
             }
@@ -53,8 +54,6 @@ public class Timer : MonoBehaviour
             // Update the Timer in the UI:
 
             UIManager.uiInstance.RefreshTimeUI();
-
-            //Debug.Log("<color=yellow>Current Enemies: " + EnemyManager.currentEnemies + "</color>");
         }
     }
 }

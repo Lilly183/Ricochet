@@ -127,18 +127,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  collisionSFX: {fileID: 8300000, guid: adfb58d1618f0d24cb87f9dda7cb23e8, type: 3}
-  deathSFX: {fileID: 8300000, guid: c92b2b55a41cb60448adce5265efd560, type: 3}
+  collisionSFX1: {fileID: 8300000, guid: adfb58d1618f0d24cb87f9dda7cb23e8, type: 3}
+  collisionSFX2: {fileID: 8300000, guid: f47384664eff0a24a8d6c5b287aadcb7, type: 3}
+  deathSFX: {fileID: 8300000, guid: 8aad9f11eec05f648b180246f8f7c676, type: 3}
   tr: {fileID: 0}
   prefabOnDeath: {fileID: 2639700532030987163, guid: 2aaf2f1c301825c44be3537994564ca6, type: 3}
-  pickupPrefab: {fileID: 0}
   launchDelay: 0.5
-  baseSpeed: 6
+  baseSpeed: 7
   hitBonusSpeed: 1
-  maxBonusSpeed: 5
+  maxBonusSpeed: 4
   damageDealtToBase: 25
-  damageTakenPerBounce: 5
+  damageTakenPerBounce: 9
   pickupDropRate: 0.5
+  pickupPrefabs:
+  - {fileID: 1419004421773753082, guid: 46c0861dfd110fc4889f9a5182dbbe09, type: 3}
+  - {fileID: 1419004421773753082, guid: 46c0861dfd110fc4889f9a5182dbbe09, type: 3}
+  - {fileID: 1419004421773753082, guid: 46c0861dfd110fc4889f9a5182dbbe09, type: 3}
+  - {fileID: 7402505244493045086, guid: 1eb4c94d192f052448fe5877cd10f733, type: 3}
 --- !u!114 &7708528988515901501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 999a84e40c3b68a46952bb4837abac93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 60
+  maxHealth: 72
   currentHealth: 0
 --- !u!1 &2702901565847667292
 GameObject:
@@ -224,7 +229,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -798549059
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3f5d7add7e21de14cb76157743ce85df, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -349,7 +354,7 @@ GameObject:
   - component: {fileID: 4358571361584475494}
   - component: {fileID: 8889348812120513077}
   m_Layer: 0
-  m_Name: Trail Origin
+  m_Name: Particle Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -490,7 +495,7 @@ GameObject:
   - component: {fileID: 5068817711386426952}
   - component: {fileID: 7961225992729615654}
   m_Layer: 0
-  m_Name: Audio Origin
+  m_Name: Audio Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -619,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b89bc3528faa2b041b7b411fc228a577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToLive: 2.25
+  timeToLive: 1.9
   startAutomatically: 0
 --- !u!1 &7192759637894936709
 GameObject:
@@ -934,7 +939,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -798549059
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3f5d7add7e21de14cb76157743ce85df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
