@@ -1,0 +1,65 @@
+Fonts:
+
+• Neon 80s:
+	https://www.dafont.com/neon-80s.font
+
+• Neon Overdrive:
+	https://www.dafont.com/neon-overdrive.font
+
+• Neon Glow:
+	https://www.dafont.com/neon-glow.font
+
+Music:
+
+• "Screen Saver" by Kevin MacLeod:
+	https://incompetech.com/music/royalty-free/index.html?
+	isrc=USUAN1900046&Search=Search
+
+• "Raving Energy" by Kevin MacLeod:	
+	https://incompetech.com/music/royalty-free/index.html?
+	isrc=USUAN1900013&Search=Search
+
+• "Cephalopod" by Kevin MacLeod:	
+	https://incompetech.com/music/royalty-free/index.html?
+	isrc=USUAN1200081&Search=Search
+
+Sound Effects:
+
+• Enemy Bounce SFX ("Boing 2"):
+	https://pixabay.com/sound-effects/boing-2-44164/
+
+• Explosion SFX ("Pixel Chiptune Explosion"):
+	https://mixkit.co/free-sound-effects/explosion/
+
+• Coin Pickup SFX ("8-bit Powerup"):
+	https://pixabay.com/sound-effects/8-bit-powerup-6768/
+
+• Energy Pickup SFX ("Energy"):
+	https://pixabay.com/sound-effects/energy-90321/
+	
+Sprites:
+
+• Menu Background:
+	https://stock.adobe.com/images/retro-sci-fi-background-futuristic-
+	landscape-of-the-80s-digital-cyber-surface-suitable-for-design-in-the-
+	style-of-the-1980-s/255951967
+
+• Player Head:
+	http://pixelartmaker.com/art/e79124f3e43364b
+
+• Explosion Spritesheet:
+	https://stock.adobe.com/images/cartoon-bomb-explosion-storyboard-clouds-
+	boom-and-smoke-animation-frame-for-mobile-game-dynamite-danger-explosive-
+	detonation-atomic-comics-fire-motion-isolated-vector-explode-sprite-sheet-
+	set/501050173?asset_id=501050173
+
+• Coin Spritesheet:
+	https://stock.adobe.com/images/pixel-gold-coin-animation-for-16-bit-retro-
+	game-game-art-illustration-of-money-8bit-isolated-background/456377967
+
+• Energy:
+	https://www.seekpng.com/ipng/u2q8a9y3e6o0o0t4_lightning-bolt-pixelated-lightning-
+	bolt/
+
+• Teleporter Spritesheet:
+	https://elthen.itch.io/2d-pixel-art-portal-sprites

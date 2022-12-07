@@ -10,9 +10,9 @@ public class TransitionManager : MonoBehaviour
 
     public static TransitionManager transitionManagerInstance;
 
-    //=======================================
-    // Makes Reference(s) to Other Object(s):
-    //=======================================
+    //=================================
+    // Reference(s) to Other Object(s):
+    //=================================
 
     public TransitionScreen transitionScreen;
 

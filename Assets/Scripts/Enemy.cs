@@ -13,13 +13,21 @@ public class Enemy : MonoBehaviour
 
     Rigidbody2D rb = null;
     Health hp = null;
-    
+
+    //=======
+    // Audio:
+    //=======
+
     [HideInInspector]
     public AudioSource audioSource;
 
     public AudioClip collisionSFX1;
     public AudioClip collisionSFX2;
     public AudioClip deathSFX;
+
+    //==================================
+    // Particle System (Trail Renderer):
+    //==================================
 
     [HideInInspector]
     public TrailRenderer tr;
@@ -42,6 +50,9 @@ public class Enemy : MonoBehaviour
     public int damageDealtToBase = 5;
     public int damageTakenPerBounce = 5;
 
+    private int hitCount = 0;
+    private Vector3 lastVelocity = Vector3.zero;
+
     //=========
     // Pickups:
     //=========
@@ -50,8 +61,10 @@ public class Enemy : MonoBehaviour
     public float pickupDropRate;
     public List<GameObject> pickupPrefabs = new();
    
-    private int hitCount = 0;
-    private Vector3 lastVelocity = Vector3.zero;
+    //===========
+    // Health UI:
+    //===========
+
     private Slider healthBar;
     
     // Start is called before the first frame update
@@ -72,11 +85,19 @@ public class Enemy : MonoBehaviour
     {
         lastVelocity = rb.velocity;
     }
-    
+
+    //========
+    // Launch:
+    //========
+
     private void Launch()
     {
         Bounce(Random.insideUnitCircle.normalized);
     }
+
+    //========
+    // Bounce:
+    //========
 
     private void Bounce(Vector2 direction)
     {
@@ -85,14 +106,14 @@ public class Enemy : MonoBehaviour
         rb.velocity = direction * ballSpeed;
     }
 
+    //====================
+    // On Collision Enter:
+    //====================
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         switch(collision.gameObject.tag)
         {
-            //case "Pickups" or "Base":
-            //{
-            //    return;
-            //}
             case "Player":
             {
                 /*
@@ -102,11 +123,11 @@ public class Enemy : MonoBehaviour
 
                 If the enemy collides with the player and is killed as a result of the player's damage,
                 ChangeHealth() will return true; it will also handle everything that should happen whenever
-                an enemy dies (check the Health class's Die() method for more information). If the enemy has
-                been killed, nothing further needs to be done. We can return. Otherwise, a sound effect will 
-                play, and break will allow execution to proceed. The slider acting as the enemy's healthbar 
-                will be updated, hitCount will be updated if applicable, and the enemy's velocity will be 
-                changed via the Bounce() method.
+                an enemy dies (check the Die() method in the Health class for more information). When an 
+                enemy is killed, nothing further needs to be done. We can return. Otherwise, break will 
+                allow execution to proceed. A sound effect will play, the slider acting as the enemy's 
+                healthbar will be updated, hitCount will be updated if applicable, and the enemy's velocity 
+                will be changed via the Bounce() method.
                 */
 
                 if (hp.ChangeHealth(-Player.playerObj.damage))
@@ -125,11 +146,11 @@ public class Enemy : MonoBehaviour
                 Enemy Collides w/ Other:
                 ========================
 
-                If an enemy has collided with an object that isn't tagged as a pickup, a base, or the 
-                player (which typically means it's the environment), instead of losing an amount of 
-                health that's dictated by the other object's damage (e.g., the player), change the 
-                enemy's health by the value of damageTakenPerBounce. Everything else is the same as 
-                above.
+                If an enemy has collided with an object that isn't tagged as the player (which 
+                typically means it's either another enemy or the environment), instead of losing 
+                an amount of health that's dictated by the other object's damage (e.g., the player), 
+                change the enemy's health by the value of damageTakenPerBounce. Everything else 
+                is the same as above.
                 */
 
                 if (hp.ChangeHealth(-damageTakenPerBounce))
@@ -153,13 +174,17 @@ public class Enemy : MonoBehaviour
         Bounce(Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal));
     }
 
+    //==================
+    // On Trigger Enter:
+    //==================
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.tag)
         {
             case "Base":
             {
-                // Kill the enemy.
+                // Kill the enemy:
                 hp.ChangeHealth(-hp.currentHealth);
                 break;
             }

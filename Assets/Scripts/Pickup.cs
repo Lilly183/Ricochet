@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
+    //====================
+    // Member Variable(s):
+    //====================
+
     [HideInInspector]
     public AudioSource audioSource;
     [HideInInspector]
@@ -20,6 +24,10 @@ public class Pickup : MonoBehaviour
         audioLifeTime = audioSource.GetComponent<LifeTime>();
         ps = GetComponentInChildren<ParticleSystem>();
     }
+
+    //=======
+    // Equip:
+    //=======
 
     public void Equip()
     {

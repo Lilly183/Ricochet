@@ -11,11 +11,9 @@ public class UIManager : MonoBehaviour
 
     public static UIManager uiInstance = null;
 
-    //private static Player playerObj;
-
-    //=======================================
-    // Makes Reference(s) to Other Object(s):
-    //=======================================
+    //=================================
+    // Reference(s) to Other Object(s):
+    //=================================
 
     public Text scoreText;
     public Text timeText;
@@ -23,15 +21,6 @@ public class UIManager : MonoBehaviour
     //====================
     // Member Variable(s):
     //====================
-
-    //public Color timeTextColor = new(1.0f, 1.0f, 0.0f, 1.0f);
-    //private string timeTextColorHex;
-    //public Color timeTextColorA = new(0, 1, 0);
-    //public Color timeTextColorB = new(1, 0, 0);
-
-    // The value of timeLimit is used (via staticTimeLimit) as a denominator in the UIManager
-    // script for timeText to lerp between timeTextColorA and timeTextColorB. It cannot be zero.
-    // Its value must be clamped to at least 1.
 
     private void Awake()
     {
@@ -44,27 +33,22 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //if (uiInstance == null)
-        //{
-        //    uiInstance = this;
-        //}
-
-        //if (playerObj == null)
-        //{
-        //    playerObj = FindObjectOfType<Player>();
-        //}
-
-        //timeTextColorHex = ColorUtility.ToHtmlStringRGBA(timeTextColor);
-
         RefreshUI();
     }
 
+    //=================================
+    // Refresh All UI (Score and Time):
+    //=================================
+
     public void RefreshUI()
     {
-        //string timeTextColorHex = ColorUtility.ToHtmlStringRGB(Color.Lerp(timeTextColorA, timeTextColorB, (1 - (Timer.timeRemaining / (float)Timer.staticTimeLimit))));
         RefreshTimeUI();
         RefreshScoreUI();
     }
+
+    //==================
+    // Refresh Score UI:
+    //==================
 
     public void RefreshScoreUI()
     {
@@ -72,13 +56,14 @@ public class UIManager : MonoBehaviour
         {
             scoreText.text = Player.playerObj.Score.ToString();
         }
-        //scoreText.text = "Score: " + playerObj.Score;
     }
+
+    //=================
+    // Refresh Time UI:
+    //=================
 
     public void RefreshTimeUI()
     {
-        //timeText.text = $"Time: <color=#{timeTextColorHex}>" + Timer.timeRemaining + "</color>";
-        //timeText.text = $"<color=#{timeTextColorHex}>" + Timer.timeRemaining + "</color>";
         timeText.text = Timer.timeRemaining.ToString();
     }
 }

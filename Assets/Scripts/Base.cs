@@ -6,10 +6,19 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Health))]
 public class Base : MonoBehaviour
 {
+    //====================
+    // Member Variable(s):
+    //====================
+
     Health hp = null;
+
+    //===========
+    // Health UI:
+    //===========
 
     Text healthText;
 
+    // Start is called before the first frame update
     private void Start()
     {
         hp = GetComponent<Health>();
@@ -18,13 +27,17 @@ public class Base : MonoBehaviour
         RefreshBaseUI();
     }
 
+    //==================
+    // On Trigger Enter:
+    //==================
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.tag)
         {
             case "Enemies":
             {
-                // Get the enemy's component.
+                // Get the "Enemy" component.
                 Enemy en = collision.gameObject.GetComponent<Enemy>();
 
                 if (en != null)
@@ -51,6 +64,10 @@ public class Base : MonoBehaviour
             }
         }
     }
+
+    //=================
+    // Refresh Base UI:
+    //=================
 
     void RefreshBaseUI()
     {

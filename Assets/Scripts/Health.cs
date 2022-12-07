@@ -9,20 +9,26 @@ public class Health : MonoBehaviour
     //====================
 
     public uint maxHealth = 100;
-
     [HideInInspector]
     public int currentHealth;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private void Awake()
+    {    
         currentHealth = (int)maxHealth;
     }
+
+    //=============================
+    // Calculate Health Percentage:
+    //=============================
 
     public float CalcHealthPercentage()
     {
         return (((float)currentHealth / (float)maxHealth));
     }
+
+    //===============
+    // Change Health:
+    //===============
 
     public bool ChangeHealth(int healthAdjustment)
     {
@@ -36,6 +42,10 @@ public class Health : MonoBehaviour
 
         return false;
     }
+
+    //=====
+    // Die:
+    //=====
 
     public void Die()
     {
@@ -76,6 +86,10 @@ public class Health : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    //====================
+    // Validate maxHealth:
+    //====================
 
     void OnValidate()
     {

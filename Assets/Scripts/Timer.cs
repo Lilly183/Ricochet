@@ -21,10 +21,15 @@ public class Timer : MonoBehaviour
         StartCoroutine(Countdown());
     }
 
+    // Ensure timeLimit is at least 1:
     void OnValidate()
     {
         timeLimit = Mathf.Max(timeLimit, 1);
     }
+
+    //=====================
+    // Coroutine: Countdown
+    //=====================
 
     IEnumerator Countdown()
     {
@@ -51,8 +56,7 @@ public class Timer : MonoBehaviour
                 }
             }
 
-            // Update the Timer in the UI:
-
+            // Update the timer in the UI:
             UIManager.uiInstance.RefreshTimeUI();
         }
     }

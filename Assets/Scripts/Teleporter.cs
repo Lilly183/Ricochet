@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
+    //=================================
+    // Reference(s) to Other Object(s):
+    //=================================
+
     public Transform targetTeleporter;
+
+    //==================
+    // On Trigger Enter:
+    //==================
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

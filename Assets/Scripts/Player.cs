@@ -2,32 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
-    //Rigidbody2D rb = null;
+    //===================
+    // Singleton Pattern:
+    //===================
 
-    /*
-    ==================
-    Singleton Pattern:
-    ==================
-
-    playerObj is declared static to make it accessible to other scripts:
-
+    /* playerObj is declared static to make it accessible to other scripts:
         - UIManager: 
             Access to the player's score is needed for the RefreshScoreUI() method.
         - Enemy: 
             Access to the player's damage is needed to change the health of an enemy that has collided 
             with the player's paddle.
         - ChangeLevel
-            Access to the player's score is needed to set the PlayerPrefs in the SaveSettings() method.
+            Access to the player's score is needed to set the PlayerPrefs in the SaveSettings() method. 
     */
     
     public static Player playerObj = null;
 
-    //====================
-    // Member Variable(s):
-    //====================
+    //========================================
+    // Input, Movement, and Orbital Variables:
+    //========================================
 
     public float spriteAngleOffset = 0.0f;
 
@@ -41,16 +36,25 @@ public class Player : MonoBehaviour
     private Vector3 seekDirection = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
 
+    //====================
+    // Damage Variable(s):
+    //====================
+
     public int damage = 10;
     public int boostDamage = 999;
     public float boostDamageDuration = 8.0f;
-    public Color boostDamageColorEffect = new(0.1960784f, 1.0f, 0.01568628f, 0.5f);
+    public Color boostDamageColorEffect = new(0.1960784f, 1.0f, 0.01568628f);
 
     private bool hasEnergy = false;
 
     [HideInInspector]
-    static public List<SpriteRenderer> playerBackgroundSpriteRenderers = new();
-    readonly List<Color> normalBackgroundColors = new();
+    static public List<SpriteRenderer> playerBackgroundSpriteRenderers;
+    [HideInInspector]
+    static public List<Color> normalBackgroundColors;
+
+    //==============================
+    // Persistent Game Data (Score):
+    //==============================
 
     private int score;
     public int Score
@@ -68,24 +72,18 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        //rb = GetComponent<Rigidbody2D>();
-
         if (playerObj == null)
         {
             playerObj = this;
         }
 
         Score = PlayerPrefs.GetInt("Score", 0);
-
-        GetNormalBackgroundColors();
     }
 
-    private void GetNormalBackgroundColors()
+    private void Awake()
     {
-        foreach (var sr in playerBackgroundSpriteRenderers)
-        {
-            normalBackgroundColors.Add(sr.color);
-        }
+        playerBackgroundSpriteRenderers = new();
+        normalBackgroundColors = new();
     }
 
     // Update is called once per frame
@@ -127,6 +125,10 @@ public class Player : MonoBehaviour
         transform.Translate(speedPerSecond * Time.deltaTime * moveDirection);
     }
 
+    //==================
+    // On Trigger Enter:
+    //==================
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.tag)
@@ -162,20 +164,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    //========================
+    // Coroutine: Boost Damage
+    //========================
+
     IEnumerator BoostDamage()
     {
+        // Temporarily prevent the player from collecting another energy pickup whilst one is active:
         hasEnergy = true;
 
         // Store the player's original damage so that we can revert it back later:
         int normalDamage = damage;
 
-        // playerBackgroundSpriteRenderers is a List for storing the sprite renderer
-        // components for all of the gameObjects comprising the player's background.
-        //Queue<Color> normalColors = new();
+        // playerBackgroundSpriteRenderers is a List for storing the sprite renderer components for all
+        // of the gameObjects comprising the player's background. Change the color for each sprite renderer
+        // component within this list to boostDamageColorEffect:
 
         foreach (var sr in playerBackgroundSpriteRenderers)
         {
-            //normalColors.Enqueue(sr.color);
             sr.color = boostDamageColorEffect;
         }
 
@@ -188,16 +194,13 @@ public class Player : MonoBehaviour
         // Return the player's damage back to normal levels (whatever it was before):
         damage = normalDamage;
 
-        //foreach (var sr in playerBackgroundSpriteRenderers)
-        //{
-        //    sr.color = normalColors.Dequeue();
-        //}
-
+        // Revert the player's background colors to normal:
         for (int i = 0; i < playerBackgroundSpriteRenderers.Count; i++)
         {
             playerBackgroundSpriteRenderers[i].color = normalBackgroundColors[i];
         }
 
+        // Allow the player to collect the energy pickup again:
         hasEnergy = false;
     }
 }

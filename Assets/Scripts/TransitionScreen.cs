@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class TransitionScreen : MonoBehaviour
 {
-    //=======================================
-    // Makes Reference(s) to Other Object(s):
-    //=======================================
+    //=================================
+    // Reference(s) to Other Object(s):
+    //=================================
 
     public Text transitionScreenText;
 

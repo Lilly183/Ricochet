@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+	//====================
+	// Member Variable(s):
+	//====================
+
 	public List<Vector2> spawnPoints = new();
 	public List<GameObject> enemyPrefabs = new();
 
 	[HideInInspector]
 	static public int currentEnemies = 0;
 	public int spawnLimit = 2;
-
 	public float timeBetweenEnemies = 1.0f;
-	//public float timeBetweenWaves = 4.0f;
 
 	private int prevSpawnIndex = -1;
 	private int currSpawnIndex;
@@ -22,6 +24,10 @@ public class EnemyManager : MonoBehaviour
     {
 		StartCoroutine(SpawnEnemies());
     }
+
+	//=========================
+	// Coroutine: Spawn Enemies
+	//=========================
 
 	IEnumerator SpawnEnemies()
 	{
@@ -65,11 +71,11 @@ public class EnemyManager : MonoBehaviour
 
             yield return new WaitForSeconds(timeBetweenEnemies);
 		}
-		
-		//StartCoroutine(SpawnEnemies());
-
-		// yield return new WaitForSeconds(timeBetweenWaves);
 	}
+
+	//========================
+	// Visualize Spawn Points:
+	//========================
 
 	private void OnDrawGizmos()
 	{

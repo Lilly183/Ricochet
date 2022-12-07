@@ -17,7 +17,7 @@ public class ChangeLevel : MonoBehaviour
             SceneManager.LoadScene(targetLevel);
         }
 
-        // Reset the enemy count:
+        // Reset the enemy count!
 
         EnemyManager.currentEnemies = 0;
     }
